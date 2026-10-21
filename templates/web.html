@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=, initial-scale=1.0">
+  <title>Blessing'Web</title>
+   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: #f7f9fa;
+    }
+    </style>
+</head>
+
+<body class="min-h-screen p-8 flex-col items-center justify-start text-slate-800">
+   
+  <!--Main container-->
+  <div class="w-full max-w-md pt-8 pl-4 sm:pl-8">
+    <h1 class="text-3x sm:text-4xl font-extrabold text-[#2d3748] tracking-tight mb-8">
+      Popular destinations
+    </h1>
+    <!--CARD CONTAINER-->
+    <div class="bg-white rounded-lg shadow-sm border border-slate-200/80 overflow-hidden w-full max-w-[380px]">
+
+      <!--IMAGE CONTAINER-->
+      <div class="relative h-44 w-full overflow-hidden bg-slate-700">
+        <!--BACKGROUND IMAGE-->
+        <img
+         src="/static/prof.pic2.jpeg"
+         alt="Destination Header" 
+         class="w-full h-full object-cover object-center opacity-90 " 
+         
+        />
+        <!--OVERLAY-->
+        <div class="absolute inset-0 bg-black/35 flex flex-col items-center justify-center text-center p-4">
+          <h2 class="text-white text-[28px] font-bold leading-tight drop-shadow-md">
+            New York
+          </h2>
+          <p class="text-white text-[17px] font-semibold tracking-wide drop-shadow-md mt-0.5">
+            United States
+          </p>
+        </div>
+      </div>
+      <!-- Table / List Content -->
+      <div class="p-5 pt-4">
+                
+        <!-- Table Header -->
+        <div class="flex items-center justify-between pb-3 text-[14px] font-bold text-[#8c94a0]">
+          <span>Origin</span>
+          <span class="flex items-center gap-1.5 font-bold text-[#8c94a0]">
+           <svg class="w-4 h-4 inline-block stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
+            </svg>
+            Price from
+          </span>
+        </div>
+
+        <!-- City & Price List -->
+        <div class="divide-y divide-transparent text-[15px]">
+          <div class="flex items-center justify-between py-2">
+            <span class="text-[#333333] font-normal">Tashkent</span>
+            <span class="text-[#0000ee] font-bold text-[16px]">$507</span>
+          </div>
+
+          <div class="flex items-center justify-between py-2">
+            <span class="text-[#333333] font-normal">Los Angeles</span>
+            <span class="text-[#0000ee] font-bold text-[16px]">$139</span>
+          </div>
+
+          <div class="flex items-center justify-between py-2">
+            <span class="text-[#333333] font-normal">Paris</span>
+            <span class="text-[#0000ee] font-bold text-[16px]">$301</span>
+          </div>
+
+          <div class="flex items-center justify-between py-2">
+            <span class="text-[#333333] font-normal">Istanbul</span>
+            <span class="text-[#0000ee] font-bold text-[16px]">$345</span>
+          </div>
+
+          <div class="flex items-center justify-between py-2">
+            <span class="text-[#333333] font-normal">Atlanta</span>
+            <span class="text-[#0000ee] font-bold text-[16px]">$60</span>
+          </div>
+        </div>
+
+      </div> 
+    </div>
+  </div>  
+</body>
+</html>
