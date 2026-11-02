@@ -260,7 +260,7 @@
                         </div>
                         <div>
                             <span class="block text-xs text-slate-500 dark:text-slate-400 font-medium uppercase">Email</span>
-                            <span class="font-semibold text-slate-800 dark:text-slate-200">ble.c.mbamara.com</span>
+                            <span class="font-semibold text-slate-800 dark:text-slate-200">ble.c.mbamara@gmail.com</span>
                         </div>
                         <div>
                             <span class="block text-xs text-slate-500 dark:text-slate-400 font-medium uppercase">Role</span>
@@ -574,7 +574,7 @@
                             <h3 class="text-lg font-bold text-slate-900 dark:text-white">B.Tech. in Computer Science</h3>
                             <span class="text-xs font-bold px-3 py-1 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300">2023 - 2027</span>
                         </div>
-                        <h4 class="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-3">University of Technology Owerri, Imo State, Nigeria</h4>
+                        <h4 class="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-3">Federal University of Technology Owerri, Imo State, Nigeria</h4>
                         <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
                             Graduated with Honors. Coursework focused on Software Engineering, Data Structures & Algorithms, Database Management, and Human-Computer Interaction.
                         </p>
@@ -867,54 +867,82 @@
             });
         });
 
-        // Contact Form Validation & Interactive Feedback
-        const contactForm = document.getElementById('contactForm');
-        const formAlert = document.getElementById('formAlert');
+       
+        
+    // Contact Form Validation & Backend Submission
+const contactForm = document.getElementById('contactForm');
+const formAlert = document.getElementById('formAlert');
 
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            let isValid = true;
-            const name = document.getElementById('name');
-            const email = document.getElementById('email');
-            const message = document.getElementById('message');
+contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    let isValid = true;
+    const name = document.getElementById('name');
+    const email = document.getElementById('email');
+    const subject = document.getElementById('subject');
+    const message = document.getElementById('message');
 
-            // Reset Error messages
-            document.querySelectorAll('.error-msg').forEach(el => el.classList.add('hidden'));
+    // Reset Error messages
+    document.querySelectorAll('.error-msg').forEach(el => el.classList.add('hidden'));
 
-            // Name validation
-            if (!name.value.trim()) {
-                name.nextElementSibling.classList.remove('hidden');
-                isValid = false;
-            }
+    // Name validation
+    if (!name.value.trim()) {
+        name.nextElementSibling.classList.remove('hidden');
+        isValid = false;
+    }
 
-            // Email validation
-            const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-            if (!email.value.match(emailPattern)) {
-                email.nextElementSibling.classList.remove('hidden');
-                isValid = false;
-            }
+    // Email validation
+    const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+    if (!email.value.match(emailPattern)) {
+        email.nextElementSibling.classList.remove('hidden');
+        isValid = false;
+    }
 
-            // Message validation
-            if (!message.value.trim()) {
-                message.nextElementSibling.classList.remove('hidden');
-                isValid = false;
-            }
+    // Message validation
+    if (!message.value.trim()) {
+        message.nextElementSibling.classList.remove('hidden');
+        isValid = false;
+    }
 
-            if (isValid) {
-                // Show success message alert
+    if (isValid) {
+        // Show loading state
+        formAlert.className = 'p-4 rounded-xl text-sm font-medium bg-sky-500/10 border border-sky-500/20 text-sky-600 dark:text-sky-400 block';
+        formAlert.textContent = 'Sending message...';
+
+        try {
+            const response = await fetch('/send-message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: name.value,
+                    email: email.value,
+                    subject: subject.value,
+                    message: message.value
+                })
+            });
+
+            const result = await response.json();
+
+            if (response.ok && result.success) {
                 formAlert.className = 'p-4 rounded-xl text-sm font-medium bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 block';
                 formAlert.textContent = 'Thank you! Your message has been sent successfully.';
-
-                // Reset form
                 contactForm.reset();
-
-                // Hide alert after 5 seconds
-                setTimeout(() => {
-                    formAlert.classList.add('hidden');
-                }, 5000);
+            } else {
+                throw new Error(result.error || 'Failed to send message.');
             }
-        });
+        } catch (error) {
+            formAlert.className = 'p-4 rounded-xl text-sm font-medium bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 block';
+            formAlert.textContent = 'Oops! Something went wrong. Please try again later.';
+        }
+
+        // Hide alert after 5 seconds
+        setTimeout(() => {
+            formAlert.classList.add('hidden');
+        }, 5000);
+    }
+});
     </script>
 </body>
 </html>
