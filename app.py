@@ -1,6 +1,7 @@
 from flask import Flask, render_template , request, jsonify
 import os
 from flask_mail import Mail, Message
+import resend
 
 from dotenv import load_dotenv
 
@@ -28,6 +29,10 @@ app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 
 mail = Mail(app)
+
+# Initialize Resend API key
+resend.api_key = os.getenv('RESEND_API_KEY')
+OWNER_EMAIL = "blessingmbamara567@gmail.com" # Your receiving email address
 
 @app.route("/en/stable/quickstart/")
 def hello_world():
@@ -64,12 +69,23 @@ def send_message():
         return jsonify({"success": False, "error": "Missing required fields"}), 400
 
     try:
-        msg = Message(
-            subject=f"Portfolio Contact: {subject}",
-            recipients=[os.getenv('MAIL_USERNAME')], # Sends email to your own configured inbox
-            body=f"Name: {name}\nEmail: {email}\n\nMessage:\n{message_body}"
-        )
-        mail.send(msg)
+        params = {
+            # Note: On the free tier of Resend, 'from' must use onboarding@resend.dev 
+            # until you verify your own custom domain.
+            "from": "Portfolio Contact <onboarding@resend.dev>",
+            "to": [OWNER_EMAIL],
+            "reply_to": email,
+            "subject": f"Portfolio Contact: {subject}",
+            "html": f"""
+                <h3>New Message from Portfolio Contact Form</h3>
+                <p><strong>Name:</strong> {name}</p>
+                <p><strong>Email:</strong> {email}</p>
+                <p><strong>Message:</strong></p>
+                <p>{message_body}</p>
+            """
+        }
+        
+        response = resend.Emails.send(params)
         return jsonify({"success": True, "message": "Email sent successfully!"})
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
